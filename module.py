@@ -1,6 +1,7 @@
 #Reading image
 import cv2 as cv
 import numpy as np
+import matplotlib.pyplot as plt
 def read_img(img_path):
     img=cv.imread(img_path)
     cv.imshow('IMAGE', img)
@@ -129,10 +130,8 @@ def scale_image(img_path):
 #Image Cropping
 def crop_image(img_path):
     img = cv.imread(img_path, 0)
-    cropped_img = img[100:300, 
-    100:300]
-    cv.imwrite('cropped_out.jpg', 
-    cropped_img)
+    cropped_img = img[100:300,100:300]
+    cv.imwrite('cropped_out.jpg', cropped_img)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
@@ -147,6 +146,7 @@ def shearx_img(img_path):
     cv.imshow('img', sheared_img)
     cv.waitKey(0)
     cv.destroyAllWindows()
+    
 #Image Shearing in Y-Axis
 def sheary_img(img_path):
     img = cv.imread(img_path, 0)
@@ -159,6 +159,34 @@ def sheary_img(img_path):
     , sheared_img)
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+#Contours
+def contour_image(img_path):
+    img = cv.imread(img_path)
+    cv.imshow('Image', img)
+
+    blank = np.zeros(img.shape, dtype='uint8')
+    cv.imshow('Blank', blank)
+
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    cv.imshow('Gray', gray)
+
+    blur = cv.GaussianBlur(gray, (5,5), cv.BORDER_DEFAULT)
+    cv.imshow('Blur', blur)
+
+    canny = cv.Canny(blur, 125, 175)
+    cv.imshow('Canny Edges', canny)
+
+    # ret, thresh = cv.threshold(gray, 125, 255, cv.THRESH_BINARY)
+    # cv.imshow('Thresh', thresh)
+
+    contours, hierarchies = cv.findContours(canny, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+    print(f'{len(contours)} contour(s) found!')
+
+    cv.drawContours(blank, contours, -1, (0,0,255), 1)
+    cv.imshow('Contours Drawn', blank)
+
+    cv.waitKey(0)
 
 #Color Channels
 def color_img(img_path):
@@ -192,6 +220,7 @@ def kerblur_image(img_path):
     cv.imshow('Kernel Blur', img)
     cv.waitKey(0)
     cv.destroyAllWindows()
+
 #Average Blur
 def avblur_image(img_path):
     image = cv.imread(img_path)
@@ -202,6 +231,7 @@ def avblur_image(img_path):
     cv.imshow('Average blur', averageBlur)
     cv.waitKey(0)
     cv.destroyAllWindows()
+
 #Gaussian Blur
 def gausblur_image(img_path):
     image = cv.imread(img_path)
@@ -212,6 +242,7 @@ def gausblur_image(img_path):
     cv.imshow('Gaussian blur', gaussian)
     cv.waitKey(0)
     cv.destroyAllWindows()
+
 #Median Blur
 def medblur_image(img_path):
     image = cv.imread(img_path)
@@ -223,6 +254,7 @@ def medblur_image(img_path):
     medianBlur)
     cv.waitKey(0)
     cv.destroyAllWindows()
+
 #Bilateral Blur
 def bilblur_image(img_path):
     image = cv.imread(img_path)
@@ -234,7 +266,69 @@ def bilblur_image(img_path):
     cv.imshow('Bilateral blur', bilateral)
     cv.waitKey(0)
     cv.destroyAllWindows()
-    
+
+#Bitwise AND
+def and_image(img_path, img1_path):
+    img1 = cv.imread(img_path)
+    img2 = cv.imread(img1_path)
+    # cv2.bitwise_and is applied over the
+    # image inputs with applied parameters
+    dest_and = cv.bitwise_and(img2, img1, mask = None)
+    # the window showing output image
+    # with the Bitwise AND operation
+    # on the input images
+    cv.imshow('Bitwise And', dest_and)
+    # De-allocate any associated memory usage
+    if cv.waitKey(0) & 0xff == 27:
+       cv.destroyAllWindows()
+
+#Bitwise OR
+def or_image(img_path, img1_path):
+    img1 = cv.imread(img_path)
+    img2 = cv.imread(img1_path)
+    # cv2.bitwise_or is applied over the
+    # image inputs with applied parameters
+    dest_or = cv.bitwise_or(img2, img1, mask = None)
+    # the window showing output image
+    # with the Bitwise OR operation
+    # on the input images
+    cv.imshow('Bitwise OR', dest_or)
+    # De-allocate any associated memory usage
+    if cv.waitKey(0) & 0xff == 27:
+       cv.destroyAllWindows()
+
+#Bitwise XOR
+def xor_image(img_path, img1_path):
+    img1 = cv.imread(img_path)
+    img2 = cv.imread(img1_path)
+    # cv2.bitwise_xor is applied over the
+    # image inputs with applied parameters
+    dest_xor = cv.bitwise_xor(img1, img2, mask = None)
+    # the window showing output image
+    # with the Bitwise XOR operation
+    # on the input images
+    cv.imshow('Bitwise XOR', dest_xor)
+    # De-allocate any associated memory usage
+    if cv.waitKey(0) & 0xff == 27:
+       cv.destroyAllWindows()
+
+#Bitwise NOT
+def not_image(img_path, img1_path):
+    img1 = cv.imread(img_path)
+    img2 = cv.imread(img1_path)
+    # cv2.bitwise_not is applied over the
+    # image input with applied parameters
+    dest_not1 = cv.bitwise_not(img1, mask = None)
+    dest_not2 = cv.bitwise_not(img2, mask = None)
+    # the windows showing output image
+    # with the Bitwise NOT operation
+    # on the 1st and 2nd input image
+    cv.imshow('Bitwise NOT on image 1', dest_not1)
+    cv.imshow('Bitwise NOT on image 2', dest_not2)
+    # De-allocate any associated memory usage
+    if cv.waitKey(0) & 0xff == 27:
+       cv.destroyAllWindows()
+
 #Masking
 def mask_image(img_path):
     img = cv.imread(img_path)
@@ -248,10 +342,16 @@ def mask_image(img_path):
     cv.imshow('Masked Image', masked)
     cv.waitKey(0)
 
+#Histogram
+def histogram_image(img_path):
+    img = cv.imread(img_path,0)
 
+    # find frequency of pixels in range 0-255
+    histr = cv.calcHist([img],[0],None,[256],[0,256])
 
-
-
+    # show the plotting graph of an image
+    plt.plot(histr)
+    plt.show()
 
 
 
