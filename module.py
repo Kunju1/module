@@ -80,6 +80,65 @@ def write_text(text, color, outline):
     cv.imshow('Text', blank)
     cv.waitKey(0)
 
+#Conversion of BGR to Greyscale
+def bgrtogray_image(img_path):
+    img=cv.imread(img_path)
+    cv.imshow('Image', img)
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    cv.imshow('Gray', gray)
+    cv.waitKey(0)
+
+#Conversion of Original Image to Blur Image
+def oritoblur_image(img_path):
+    img=cv.imread(img_path)
+    cv.imshow('Image', img)
+    blur = cv.GaussianBlur(img, (7,7), cv.BORDER_DEFAULT)
+    cv.imshow('Blur', blur)
+    cv.waitKey(0)
+
+#Edge Cascade
+def edgecascade_image(img_path):
+    img=cv.imread(img_path)
+    cv.imshow('Image', img)
+    canny = cv.Canny(img, 125, 175)
+    cv.imshow('Canny Edges', canny)
+    cv.waitKey(0)
+
+#Dilate
+def dilate_image(img_path):
+    img=cv.imread(img_path)
+    canny=cv.Canny(img, 125, 175)
+    cv.imshow('Image', img)
+    dilated = cv.dilate(canny, (7,7), iterations=3)
+    cv.imshow('Dilated', dilated)
+    cv.waitKey(0)
+
+#Erosion
+def erosion_image(img_path):
+    img=cv.imread(img_path)
+    canny=cv.Canny(img, 125, 175)
+    dilated=cv.dilate(canny, (7,7), iterations=3)
+    cv.imshow('Image', img)
+    eroded = cv.erode(dilated, (7,7), iterations=3)
+    cv.imshow('Eroded', eroded)
+    cv.waitKey(0)
+
+#Resize
+def resize_image(img_path):
+    img=cv.imread(img_path)
+    cv.imshow('Image', img)
+    resized = cv.resize(img, (500,500), interpolation=cv.INTER_CUBIC)
+    cv.imshow('Resized', resized)
+    cv.waitKey(0)
+
+#Cropping
+def cropping_image(img_path):
+    img=cv.imread(img_path)
+    cv.imshow('Image', img)
+    cropped = img[50:200, 200:400]
+    cv.imshow('Cropped', cropped)
+    cv.waitKey(0)
+
 #Image translation
 def trans_image(img_path):
     img = cv.imread(img_path, 0)
@@ -131,7 +190,7 @@ def scale_image(img_path):
 def crop_image(img_path):
     img = cv.imread(img_path, 0)
     cropped_img = img[100:300,100:300]
-    cv.imwrite('cropped_out.jpg', cropped_img)
+    cv.imshow('cropped_out.jpg', cropped_img)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
