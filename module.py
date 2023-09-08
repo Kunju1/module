@@ -2,7 +2,7 @@
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
-def read_img(img_path):
+def read_image(img_path):
     img=cv.imread(img_path)
     cv.imshow('IMAGE', img)
     cv.waitKey(0)
@@ -142,6 +142,7 @@ def cropping_image(img_path):
 #Image translation
 def trans_image(img_path):
     img = cv.imread(img_path, 0)
+    cv.imshow('Original', img)
     rows, cols = img.shape
     M = np.float32([[1, 0, 100], [0, 1, 50]])
     dst = cv.warpAffine(img, M, (cols,rows))
@@ -152,6 +153,7 @@ def trans_image(img_path):
 #Image Reflection 
 def reflect_image(img_path):
     img = cv.imread(img_path, 0)
+    cv.imshow('Original', img)
     rows, cols = img.shape
     M = np.float32([[1, 0, 0],
     [0, -1, rows],
@@ -165,6 +167,7 @@ def reflect_image(img_path):
 #Image Rotation
 def rotate_image(img_path):
     img = cv.imread(img_path, 0)
+    cv.imshow('Original', img)
     rows, cols = img.shape
     M = np.float32([[1, 0, 0], [0, -1, rows], [0, 0, 1]])
     img_rotation = cv.warpAffine(img,
@@ -177,6 +180,7 @@ def rotate_image(img_path):
 #Image Scaling
 def scale_image(img_path):
     img = cv.imread(img_path, 0)
+    cv.imshow('Original', img)
     rows, cols = img.shape
     img_shrinked = cv.resize(img, (250, 200),
     interpolation=cv.INTER_AREA)
@@ -189,6 +193,7 @@ def scale_image(img_path):
 #Image Cropping
 def crop_image(img_path):
     img = cv.imread(img_path, 0)
+    cv.imshow('Original', img)
     cropped_img = img[100:300,100:300]
     cv.imshow('cropped_out.jpg', cropped_img)
     cv.waitKey(0)
@@ -197,6 +202,7 @@ def crop_image(img_path):
 #Image Shearing in X-Axis
 def shearx_img(img_path):
     img = cv.imread(img_path, 0)
+    cv.imshow('Original', img)
     rows, cols = img.shape
     M = np.float32([[1, 0.5, 0], [0, 1, 0], 
     [0, 0, 1]])
@@ -209,6 +215,7 @@ def shearx_img(img_path):
 #Image Shearing in Y-Axis
 def sheary_img(img_path):
     img = cv.imread(img_path, 0)
+    cv.imshow('Original', img)
     rows, cols = img.shape
     M = np.float32([[1, 0, 0], [0.5, 1, 0], 
     [0, 0, 1]])
@@ -248,7 +255,7 @@ def contour_image(img_path):
     cv.waitKey(0)
 
 #Color Channels
-def color_img(img_path):
+def color_image(img_path):
     image = cv.imread(img_path)
     B, G, R = cv.split(image)
 # Corresponding channels are separated
@@ -404,7 +411,7 @@ def mask_image(img_path):
 #Histogram
 def histogram_image(img_path):
     img = cv.imread(img_path,0)
-
+    cv.imshow('IMAGE', img)
     # find frequency of pixels in range 0-255
     histr = cv.calcHist([img],[0],None,[256],[0,256])
 
