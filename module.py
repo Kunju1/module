@@ -1,7 +1,9 @@
-#Reading image
+#Importing necessary packages
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
+
+#Reading image
 def read_image(img_path):
     img=cv.imread(img_path)
     cv.imshow('IMAGE', img)
@@ -178,15 +180,17 @@ def rotate_image(img_path):
     cv.destroyAllWindows()
 
 #Image Scaling
-def scale_image(img_path):
-    img = cv.imread(img_path, 0)
-    cv.imshow('Original', img)
-    rows, cols = img.shape
-    img_shrinked = cv.resize(img, (250, 200),
-    interpolation=cv.INTER_AREA)
-    cv.imshow('img', img_shrinked)
-    img_enlarged = cv.resize(img_shrinked, None,fx=1.5, fy=1.5,interpolation=cv.INTER_CUBIC)
-    cv.imshow('img', img_enlarged)
+def img_SCALE_ENLARGE(image_path):  
+    img = cv.imread(image_path)
+    enlarged = cv.resize(img,None,fx=1.5,fy=1.5,interpolation=cv.INTER_CUBIC)
+    cv.imshow('Enlarged',enlarged)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+def img_SCALE_SHRINK(image_path):
+    img = cv.imread(image_path)
+    shrinked = cv.resize(img,(250,250),interpolation=cv.INTER_AREA)
+    cv.imshow('Shrinked',shrinked)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
@@ -408,6 +412,26 @@ def mask_image(img_path):
     cv.imshow('Masked Image', masked)
     cv.waitKey(0)
 
+#Alpha Blending
+def alphablend_image(image1_path: str, image2_path: str):
+    
+     
+    img1 = cv.imread(image1_path)
+    img2 = cv.imread(image2_path)
+    img2 = cv.resize(img2, img1.shape[1::-1])
+    cv.imshow("img 1",img1)
+    cv.waitKey(0)
+    cv.imshow("img 2",img2)
+    cv.waitKey(0)
+    choice = 1
+    while (choice) :
+        alpha = 0.5
+        dst = cv.addWeighted(img1, alpha , img2, 1-alpha, 0)
+        # img3 = cv.imread(dst)
+        cv.imshow("alpha blending 1",dst)
+        cv.waitKey(0)
+        cv.destroyAllWindows()      
+
 #Histogram
 def histogram_image(img_path):
     img = cv.imread(img_path,0)
@@ -419,6 +443,15 @@ def histogram_image(img_path):
     plt.plot(histr)
     plt.show()
 
+def img_COLORHIST(image_path):
+    
+    n_img = cv.imread(image_path)
+    plt.hist(n_img.ravel(), bins=256, range=(0.0, 1.0), fc='k',ec='k') #calculating histogram
+    histr = cv.calcHist([n_img],[0],None,[256],[0,256])
+    # show the plotting graph of an image
+    plt.plot(histr)
+    plt.show()
+    
 
 
 
